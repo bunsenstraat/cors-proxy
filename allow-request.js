@@ -22,6 +22,22 @@ function isPush (req, u) {
   return req.method === 'POST' && req.headers['content-type'] === 'application/x-git-receive-pack-request' && u.pathname.endsWith('git-receive-pack')
 }
 
+function isGitHubDeviceCodeRequestOption (req, u) {
+  return req.method === 'OPTIONS' && u.pathname.endsWith('github.com/login/device/code')
+}
+
+function isGitHubDeviceCodeRequestPost (req, u) {
+  return req.method === 'POST' && u.pathname.endsWith('github.com/login/device/code')
+}
+
+function isGitHubAuthRequestOption (req, u) {
+  return req.method === 'OPTIONS' && u.pathname.endsWith('github.com/login/oauth/access_token')
+}
+
+function isGitHubAuthRequestPost (req, u) {
+  return req.method === 'POST' && u.pathname.endsWith('github.com/login/oauth/access_token')
+}
+
 module.exports = function allow (req, u) {
   return (
     isPreflightInfoRefs(req, u) ||
@@ -29,6 +45,10 @@ module.exports = function allow (req, u) {
     isPreflightPull(req, u) ||
     isPull(req, u) ||
     isPreflightPush(req, u) ||
-    isPush(req, u)
+    isPush(req, u) || 
+    isGitHubDeviceCodeRequestOption (req, u) ||
+    isGitHubDeviceCodeRequestPost (req, u) || 
+    isGitHubAuthRequestOption (req, u) ||
+    isGitHubAuthRequestPost (req, u)
   )
 }
