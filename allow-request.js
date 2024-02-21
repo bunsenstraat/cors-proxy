@@ -38,6 +38,7 @@ function isGitHubAuthRequestPost (req, u) {
   return req.method === 'POST' && u.pathname.endsWith('github.com/login/oauth/access_token')
 }
 
+/// changes for github
 module.exports = function allow (req, u) {
   return (
     isPreflightInfoRefs(req, u) ||
